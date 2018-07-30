@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/act_home"
+            android:icon="@drawable/ic_home_black"
+            android:title="Home" />
+        <item
+            android:id="@+id/act_foto"
+            android:icon="@drawable/ic_photo_black"
+            android:title="Foto" />
+        <item
+            android:id="@+id/act_map"
+            android:icon="@drawable/ic_map_black"
+            android:title="Peta" />
+    </group>
+
+    <item android:title="App Pencarian Ruko">
+        <menu>
+            <item
+                android:id="@+id/act_logout"
+                android:icon="@drawable/ic_input_black"
+                android:title="Logout" />
+            <item
+                android:id="@+id/act_about"
+                android:icon="@drawable/ic_info_black"
+                android:title="Tentang" />
+        </menu>
+    </item>
+
+</menu>
