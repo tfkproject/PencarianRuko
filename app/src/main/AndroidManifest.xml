@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ta.nanda.pencarianruko.MainActivity"
+            android:name="ta.nanda.pencarianruko.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +26,26 @@
         </activity>
         <activity android:name="ta.nanda.pencarianruko.RukoDetail"/>
         <activity android:name="ta.nanda.pencarianruko.LoginUser"/>
+        <activity android:name="ta.nanda.pencarianruko.LoginPemilik"/>
         <activity android:name="ta.nanda.pencarianruko.RegistrasiUser"/>
+        <activity android:name="ta.nanda.pencarianruko.RegistrasiPemilik"/>
         <activity android:name="ta.nanda.pencarianruko.DirectionMap"/>
         <activity android:name="ta.nanda.pencarianruko.PilihArea"/>
+        <activity android:name="ta.nanda.pencarianruko.PemilikActivity"/>
+        <activity android:name="ta.nanda.pencarianruko.RukoPemilikDetail"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="ta.nanda.pencarianruko.MainActivity"/>
+        <activity android:name="ta.nanda.pencarianruko.InputRukoActivity"/>
+        <activity android:name="ta.nanda.pencarianruko.InputSekitaranRukoActivity"/>
+        <activity android:name="ta.nanda.pencarianruko.SekitaranActivity"/>
+
+        <!--<meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />-->
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
+            android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
 

@@ -292,19 +292,29 @@
                         android:orientation="horizontal"
                         android:padding="5dp">
                         <Button
-                            android:id="@+id/btn_telp"
-                            android:layout_width="match_parent"
+                            android:id="@+id/btn_sekitar"
+                            android:layout_width="wrap_content"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="Hubungi"
-                            android:drawableLeft="@drawable/ic_call_black"/>
+                            android:text="Sekitaran Ruko"
+                            android:textSize="20px"
+                            android:drawableLeft="@drawable/ic_add_black"/>
                         <Button
-                            android:id="@+id/btn_direk"
-                            android:layout_width="match_parent"
+                            android:id="@+id/btn_lht_sktr"
+                            android:layout_width="wrap_content"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="Ke lokasi"
-                            android:drawableLeft="@drawable/ic_directions"/>
+                            android:text="Lihat Sekitaran"
+                            android:textSize="20px"
+                            android:drawableLeft="@drawable/ic_location"/>
+                        <Button
+                            android:id="@+id/btn_hapus"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Hapus Ruko"
+                            android:textSize="20px"
+                            android:drawableLeft="@drawable/ic_delete"/>
                     </LinearLayout>
 
                 </LinearLayout>

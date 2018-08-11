@@ -2,10 +2,12 @@ package ta.nanda.pencarianruko;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +43,7 @@ public class LoginUser extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         getSupportActionBar().setTitle("Login Pelanggan");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         session = new SessionManager(getApplicationContext());
 
@@ -127,7 +129,7 @@ public class LoginUser extends AppCompatActivity {
                             String nama = c.getString("nama_user");
 
                             //buat sesi login
-                            session.createLoginSession(id, nama);
+                            session.createLoginSession(id, nama, "1");
                         }
                     } else {
                         // no data found
@@ -183,6 +185,13 @@ public class LoginUser extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -194,8 +203,13 @@ public class LoginUser extends AppCompatActivity {
             finish();
             return true;
         }
+        if (id == R.id.act_login_pemilik){
+            Intent intent = new Intent(LoginUser.this, LoginPemilik.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

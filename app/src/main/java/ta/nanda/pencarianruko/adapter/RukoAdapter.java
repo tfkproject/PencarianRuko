@@ -1,7 +1,9 @@
 package ta.nanda.pencarianruko.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import ta.nanda.pencarianruko.LoginUser;
 import ta.nanda.pencarianruko.R;
 import ta.nanda.pencarianruko.RukoDetail;
 import ta.nanda.pencarianruko.model.ItemRuko;
@@ -48,7 +51,29 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if(!session.isLoggedIn()){
-                    Toast.makeText(context, "Anda harus login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Anda harus login terlebih dahulu");
+                    builder.setCancelable(false);
+
+                    builder.setPositiveButton(
+                            "Login",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(context, LoginUser.class);
+                                    context.startActivity(intent);
+                                }
+                            });
+
+                    builder.setNegativeButton(
+                            "Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }else{
                     Intent intent = new Intent(context, RukoDetail.class);
                     intent.putExtra("key_id_ruko", items.get(position).getId());

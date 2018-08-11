@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,19 +25,19 @@ import ta.nanda.pencarianruko.util.Config;
 import ta.nanda.pencarianruko.util.Request;
 import ta.nanda.pencarianruko.util.SessionManager;
 
-public class RegistrasiUser extends AppCompatActivity {
+public class RegistrasiPemilik extends AppCompatActivity {
 
-    EditText edtNama, edtEmail, edtPass;
+    EditText edtNama, edtEmail, edtPass, edtNohp;
     Button btnReg;
     TextView btnLogin;
     private ProgressDialog pDialog;
-    private String url = Config.HOST+"regis_user.php";
+    private String url = Config.HOST+"regis_pemilik.php";
     SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrasi);
+        setContentView(R.layout.activity_registrasi_pemilik);
 
         getSupportActionBar().setTitle("Register Akun");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -48,6 +47,7 @@ public class RegistrasiUser extends AppCompatActivity {
         edtNama = (EditText) findViewById(R.id.edt_nama);
         edtEmail = (EditText) findViewById(R.id.edt_email);
         edtPass = (EditText) findViewById(R.id.edt_pass);
+        edtNohp = (EditText) findViewById(R.id.edt_nohp);
 
         btnReg = (Button) findViewById(R.id.btn_reg);
         btnLogin = (TextView) findViewById(R.id.btn_login);
@@ -55,13 +55,14 @@ public class RegistrasiUser extends AppCompatActivity {
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(edtNama.getText().equals("") && edtEmail.getText().equals("") && edtPass.getText().equals("")){
-                    Toast.makeText(RegistrasiUser.this, "Tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+                if(edtNama.getText().equals("") && edtEmail.getText().equals("") && edtPass.getText().equals("") && edtNohp.getText().equals("")){
+                    Toast.makeText(RegistrasiPemilik.this, "Tidak boleh kosong!", Toast.LENGTH_SHORT).show();
                 }else{
                     String nama = edtNama.getText().toString();
                     String email = edtEmail.getText().toString();
                     String pass = edtPass.getText().toString();
-                    new prosesDaftar(nama, email, pass).execute();
+                    String nohp = edtNohp.getText().toString();
+                    new prosesDaftar(nama, email, pass, nohp).execute();
                 }
             }
         });
@@ -82,18 +83,19 @@ public class RegistrasiUser extends AppCompatActivity {
         private int scs = 0;
         private String psn;
 
-        String nama, email, password;
+        String nama, email, password, nohp;
 
-        public prosesDaftar(String nama, String email, String password){
+        public prosesDaftar(String nama, String email, String password, String nohp){
             this.nama = nama;
             this.email = email;
             this.password = password;
+            this.nohp = nohp;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(RegistrasiUser.this);
+            pDialog = new ProgressDialog(RegistrasiPemilik.this);
             pDialog.setMessage("Loading...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -108,6 +110,7 @@ public class RegistrasiUser extends AppCompatActivity {
                 detail.put("nama", nama);
                 detail.put("email", email);
                 detail.put("password", password);
+                detail.put("nohp", nohp);
 
                 try {
                     //convert this HashMap to encodedUrl to send to php file
@@ -125,11 +128,11 @@ public class RegistrasiUser extends AppCompatActivity {
                         psn = ob.getString("message");
 
                         // Storing each json item in variable
-                        String id = ob.getString("id_user");
-                        String nama = ob.getString("nama_user");
+                        String id = ob.getString("id_pemilik");
+                        String nama = ob.getString("nama");
 
                         //buat sesi login
-                        session.createLoginSession(id, nama, "1");
+                        session.createLoginSession(id, nama, "2");
                     } else {
                         // no data found
                         psn = ob.getString("message");
@@ -152,12 +155,12 @@ public class RegistrasiUser extends AppCompatActivity {
             pDialog.dismiss();
 
             if(scs == 0){
-                Toast.makeText(RegistrasiUser.this, ""+psn, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistrasiPemilik.this, ""+psn, Toast.LENGTH_SHORT).show();
             }else{
                 //tutup activity ini
                 finish();
 
-                Intent intent = new Intent(RegistrasiUser.this, MainActivity.class);
+                Intent intent = new Intent(RegistrasiPemilik.this, PemilikActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);

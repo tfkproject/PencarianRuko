@@ -48,7 +48,7 @@ public class PilihAreaAdapter extends RecyclerView.Adapter<PilihAreaAdapter.View
         holder.itemKec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSelected(position, items.get(position).getId_kec());
+                listener.onSelected(position, items.get(position).getId_kec(), items.get(position).getNama_kec());
             }
         });
         holder.txtNamaKec.setText(items.get(position).getNama_kec());
@@ -73,6 +73,6 @@ public class PilihAreaAdapter extends RecyclerView.Adapter<PilihAreaAdapter.View
     }
 
     public interface AdapterListener {
-        void onSelected(int position, String id_kec);
+        void onSelected(int position, String id_kec, String nama_kec);
     }
 }

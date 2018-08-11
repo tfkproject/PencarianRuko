@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
             HashMap<String, String> user = session.getUserDetails();
             String id_user = user.get(SessionManager.KEY_ID_USER);
             String nm_user = user.get(SessionManager.KEY_NM_USER);
+            String jns_user = user.get(SessionManager.KEY_JNS_USER);
             textView.setText("Hai, " + nm_user);
         }
 

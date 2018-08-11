@@ -26,66 +26,62 @@ import ta.nanda.pencarianruko.util.Config;
 import ta.nanda.pencarianruko.util.Request;
 import ta.nanda.pencarianruko.util.SessionManager;
 
-public class RegistrasiUser extends AppCompatActivity {
+public class LoginPemilik extends AppCompatActivity {
 
-    EditText edtNama, edtEmail, edtPass;
-    Button btnReg;
-    TextView btnLogin;
+    EditText edtEmail, edtPass;
+    TextView btnReg;
+    Button btnLogin;
     private ProgressDialog pDialog;
-    private String url = Config.HOST+"regis_user.php";
+    private String url = Config.HOST+"login_pemilik.php";
     SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrasi);
+        setContentView(R.layout.activity_login_pemilik);
 
-        getSupportActionBar().setTitle("Register Akun");
+        getSupportActionBar().setTitle("Login Pemilik");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         session = new SessionManager(getApplicationContext());
 
-        edtNama = (EditText) findViewById(R.id.edt_nama);
         edtEmail = (EditText) findViewById(R.id.edt_email);
         edtPass = (EditText) findViewById(R.id.edt_pass);
 
-        btnReg = (Button) findViewById(R.id.btn_reg);
-        btnLogin = (TextView) findViewById(R.id.btn_login);
-
-        btnReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(edtNama.getText().equals("") && edtEmail.getText().equals("") && edtPass.getText().equals("")){
-                    Toast.makeText(RegistrasiUser.this, "Tidak boleh kosong!", Toast.LENGTH_SHORT).show();
-                }else{
-                    String nama = edtNama.getText().toString();
-                    String email = edtEmail.getText().toString();
-                    String pass = edtPass.getText().toString();
-                    new prosesDaftar(nama, email, pass).execute();
-                }
-            }
-        });
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReg = (TextView) findViewById(R.id.btn_reg);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if(edtEmail.getText().equals("") || edtPass.getText().equals("")){
+                    Toast.makeText(LoginPemilik.this, "Tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+                }else{
+                    String email = edtEmail.getText().toString();
+                    String pass = edtPass.getText().toString();
+                    new prosesLogin(email, pass).execute();
+                }
             }
         });
 
-
+        btnReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginPemilik.this, RegistrasiPemilik.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    private class prosesDaftar extends AsyncTask<Void,Void,String> {
+    private class prosesLogin extends AsyncTask<Void,Void,String> {
 
         //variabel untuk tangkap data
         private int scs = 0;
         private String psn;
 
-        String nama, email, password;
+        String email, password;
 
-        public prosesDaftar(String nama, String email, String password){
-            this.nama = nama;
+        public prosesLogin(String email, String password){
             this.email = email;
             this.password = password;
         }
@@ -93,8 +89,8 @@ public class RegistrasiUser extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(RegistrasiUser.this);
-            pDialog.setMessage("Loading...");
+            pDialog = new ProgressDialog(LoginPemilik.this);
+            pDialog.setMessage("Memuat data...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -105,7 +101,6 @@ public class RegistrasiUser extends AppCompatActivity {
             try{
                 //susun parameter
                 HashMap<String,String> detail = new HashMap<>();
-                detail.put("nama", nama);
                 detail.put("email", email);
                 detail.put("password", password);
 
@@ -122,14 +117,18 @@ public class RegistrasiUser extends AppCompatActivity {
                     scs = ob.getInt("success");
 
                     if (scs == 1) {
-                        psn = ob.getString("message");
+                        JSONArray products = ob.getJSONArray("field");
 
-                        // Storing each json item in variable
-                        String id = ob.getString("id_user");
-                        String nama = ob.getString("nama_user");
+                        for (int i = 0; i < products.length(); i++) {
+                            JSONObject c = products.getJSONObject(i);
 
-                        //buat sesi login
-                        session.createLoginSession(id, nama, "1");
+                            // Storing each json item in variable
+                            String id = c.getString("id_pemilik");
+                            String nama = c.getString("nama");
+
+                            //buat sesi login
+                            session.createLoginSession(id, nama, "2");
+                        }
                     } else {
                         // no data found
                         psn = ob.getString("message");
@@ -152,12 +151,12 @@ public class RegistrasiUser extends AppCompatActivity {
             pDialog.dismiss();
 
             if(scs == 0){
-                Toast.makeText(RegistrasiUser.this, ""+psn, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginPemilik.this, ""+psn, Toast.LENGTH_SHORT).show();
             }else{
                 //tutup activity ini
                 finish();
 
-                Intent intent = new Intent(RegistrasiUser.this, MainActivity.class);
+                Intent intent = new Intent(LoginPemilik.this, PemilikActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);

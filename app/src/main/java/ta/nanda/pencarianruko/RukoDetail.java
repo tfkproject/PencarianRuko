@@ -16,14 +16,14 @@ public class RukoDetail extends AppCompatActivity {
 
     ImageView imgRuko;
     TextView txtJdl, txtHarga, txtUkrn, txtBgnn, txtTnh, txtJumKmr, txtKmrMndi, txtListrik, txtSrtfkt;
-    Button btnTelp, btnDirek;
+    Button btnTelp, btnSekitar, btnDirek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ruko_detail);
+        setContentView(R.layout.activity_ruko_detail);
 
-        String id_ruko = getIntent().getStringExtra("key_id_ruko");
+        final String id_ruko = getIntent().getStringExtra("key_id_ruko");
         String nama_kec = getIntent().getStringExtra("key_nama_kec");
         final String judul = getIntent().getStringExtra("key_judul");
         String gambar = getIntent().getStringExtra("key_gambar");
@@ -65,14 +65,27 @@ public class RukoDetail extends AppCompatActivity {
         txtListrik.setText(daya_listrik+" VA");
         txtSrtfkt.setText(sertifikat);
 
-        btnTelp = (Button) findViewById(R.id.btn_telp);
-        btnDirek = (Button) findViewById(R.id.btn_direk);
+        btnTelp = (Button) findViewById(R.id.btn_edit);
+        btnSekitar = (Button) findViewById(R.id.btn_sekitar);
+        btnDirek = (Button) findViewById(R.id.btn_hapus);
 
         btnTelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:"+no_hp));
+                startActivity(intent);
+            }
+        });
+
+        btnSekitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RukoDetail.this, SekitaranActivity.class);
+                intent.putExtra("key_id_ruko", id_ruko);
+                intent.putExtra("key_judul_ruko", judul);
+                intent.putExtra("key_lat_ruko", latitude);
+                intent.putExtra("key_lon_ruko", longitude);
                 startActivity(intent);
             }
         });

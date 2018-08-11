@@ -54,11 +54,12 @@ public class PilihArea extends AppCompatActivity {
 
         adapter = new PilihAreaAdapter(PilihArea.this, itemList, new PilihAreaAdapter.AdapterListener() {
             @Override
-            public void onSelected(int position, String id_kec) {
-                //simpan id_ortu ke memori
+            public void onSelected(int position, String id_kec, String nama_kec) {
+                //simpan id ke memori
                 SharedPreferences prefs = getSharedPreferences("my_prefs", MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
                 edit.putString("ID_KEC", id_kec );
+                edit.putString("NM_KEC", nama_kec );
                 edit.apply();
                 finish();
             }

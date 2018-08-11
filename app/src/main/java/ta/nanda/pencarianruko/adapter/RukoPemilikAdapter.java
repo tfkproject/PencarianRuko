@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -21,6 +19,7 @@ import java.util.List;
 import ta.nanda.pencarianruko.LoginUser;
 import ta.nanda.pencarianruko.R;
 import ta.nanda.pencarianruko.RukoDetail;
+import ta.nanda.pencarianruko.RukoPemilikDetail;
 import ta.nanda.pencarianruko.model.ItemRuko;
 import ta.nanda.pencarianruko.util.SessionManager;
 
@@ -28,20 +27,20 @@ import ta.nanda.pencarianruko.util.SessionManager;
  * Created by taufik on 21/05/18.
  */
 
-public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHolder> {
+public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.ViewHolder> {
 
     List<ItemRuko> items;
     Context context;
     private SessionManager session;
 
-    public RukoFotoAdapter(Context context, List<ItemRuko> items) {
+    public RukoPemilikAdapter(Context context, List<ItemRuko> items) {
         this.context = context;
         this.items = items;
     }
 
     @Override
-    public RukoFotoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ruko_foto, parent, false);
+    public RukoPemilikAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ruko, parent, false);
         session = new SessionManager(context);
         return new ViewHolder(view);
     }
@@ -76,7 +75,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
                     AlertDialog alert = builder.create();
                     alert.show();
                 }else{
-                    Intent intent = new Intent(context, RukoDetail.class);
+                    Intent intent = new Intent(context, RukoPemilikDetail.class);
                     intent.putExtra("key_id_ruko", items.get(position).getId());
                     intent.putExtra("key_nama_kec", items.get(position).getKec());
                     intent.putExtra("key_judul", items.get(position).getJudul());
@@ -94,11 +93,13 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
                     intent.putExtra("key_lon", items.get(position).getLongitude());
                     context.startActivity(intent);
                 }
+
             }
         });
         Glide.with(context).load(items.get(position).getUrl_gambar()).into(holder.image);
         holder.txtJudul.setText(items.get(position).getJudul());
         holder.txtUkuran.setText(items.get(position).getUkuran());
+        holder.txtSert.setText(items.get(position).getSertifikat());
         holder.txtHarga.setText(items.get(position).getHarga());
     }
 
@@ -111,7 +112,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
 
         CardView itemRuko;
         ImageView image;
-        TextView txtJudul, txtUkuran, txtHarga;
+        TextView txtJudul, txtUkuran, txtSert, txtHarga;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -121,6 +122,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
             image = (ImageView) itemView.findViewById(R.id.foto);
             txtJudul = (TextView) itemView.findViewById(R.id.judul);
             txtUkuran = (TextView) itemView.findViewById(R.id.ukuran);
+            txtSert = (TextView) itemView.findViewById(R.id.sertifikat);
             txtHarga = (TextView) itemView.findViewById(R.id.harga);
         }
     }

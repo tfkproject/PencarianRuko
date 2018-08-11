@@ -34,6 +34,7 @@ public class SessionManager {
 
     public static final String KEY_ID_USER = "key_id_user";
     public static final String KEY_NM_USER = "key_nm_user";
+    public static final String KEY_JNS_USER = "key_jns_user";
 
     // Constructor
     public SessionManager(Context context) {
@@ -45,11 +46,12 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String id_user, String nama_user) {
+    public void createLoginSession(String id_user, String nama_user, String jns_user) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_ID_USER, id_user);
         editor.putString(KEY_NM_USER, nama_user);
+        editor.putString(KEY_JNS_USER, jns_user);
 
         // commit changes
         editor.commit();
@@ -65,7 +67,7 @@ public class SessionManager {
         if (!this.isLoggedIn()) {
             //Anda belum login
 
-            /*// user is not logged in redirect him to Login Activity
+            // user is not logged in redirect him to Login Activity
             Intent i = new Intent(_context, LoginUser.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -74,7 +76,7 @@ public class SessionManager {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // Staring Login Activity
-            _context.startActivity(i);*/
+            _context.startActivity(i);
 
         }
         else{
@@ -92,6 +94,7 @@ public class SessionManager {
 
         user.put(KEY_ID_USER, pref.getString(KEY_ID_USER, null));
         user.put(KEY_NM_USER, pref.getString(KEY_NM_USER, null));
+        user.put(KEY_JNS_USER, pref.getString(KEY_JNS_USER, null));
         // return user
         return user;
     }
@@ -104,7 +107,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        /*// After logout redirect user to Loing Activity
+        // After logout redirect user to Loing Activity
         Intent i = new Intent(_context, LoginUser.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -113,7 +116,7 @@ public class SessionManager {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
-        _context.startActivity(i);*/
+        _context.startActivity(i);
     }
 
     /**
