@@ -72,7 +72,7 @@ public class RukoDetail extends AppCompatActivity {
         btnTelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:"+no_hp));
                 startActivity(intent);
             }
