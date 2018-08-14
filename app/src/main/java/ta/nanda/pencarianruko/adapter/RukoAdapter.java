@@ -98,7 +98,7 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
         });
         Glide.with(context).load(items.get(position).getUrl_gambar()).into(holder.image);
         holder.txtJudul.setText(items.get(position).getJudul());
-        holder.txtUkuran.setText(items.get(position).getUkuran());
+        holder.txtUkuran.setText("Ukuran: "+items.get(position).getUkuran()+" M");
         holder.txtSert.setText(items.get(position).getSertifikat());
         holder.txtHarga.setText(items.get(position).getHarga());
     }
