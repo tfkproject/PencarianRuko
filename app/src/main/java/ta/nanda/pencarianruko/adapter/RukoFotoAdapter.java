@@ -3,6 +3,7 @@ package ta.nanda.pencarianruko.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -92,6 +93,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
                     intent.putExtra("key_no_hp", items.get(position).getNo_hp());
                     intent.putExtra("key_lat", items.get(position).getLatitude());
                     intent.putExtra("key_lon", items.get(position).getLongitude());
+                    intent.putExtra("key_sts", items.get(position).getStatus());
                     context.startActivity(intent);
                 }
             }
@@ -100,6 +102,15 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
         holder.txtJudul.setText(items.get(position).getJudul());
         holder.txtUkuran.setText("Ukuran: "+items.get(position).getUkuran()+" M");
         holder.txtHarga.setText(items.get(position).getHarga());
+        String status = items.get(position).getStatus();
+        if(status.equals("N")){
+            holder.txtStatus.setText("Belum disewa");
+            holder.txtStatus.setTextColor(Color.GREEN);
+        }
+        if(status.equals("Y")){
+            holder.txtStatus.setText("Sudah disewakan");
+            holder.txtStatus.setTextColor(Color.RED);
+        }
     }
 
     @Override
@@ -111,7 +122,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
 
         CardView itemRuko;
         ImageView image;
-        TextView txtJudul, txtUkuran, txtHarga;
+        TextView txtJudul, txtUkuran, txtHarga, txtStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -122,6 +133,7 @@ public class RukoFotoAdapter extends RecyclerView.Adapter<RukoFotoAdapter.ViewHo
             txtJudul = (TextView) itemView.findViewById(R.id.judul);
             txtUkuran = (TextView) itemView.findViewById(R.id.ukuran);
             txtHarga = (TextView) itemView.findViewById(R.id.harga);
+            txtStatus = (TextView) itemView.findViewById(R.id.status);
         }
     }
 }

@@ -1,6 +1,7 @@
 package ta.nanda.pencarianruko;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,7 @@ import com.bumptech.glide.Glide;
 public class RukoDetail extends AppCompatActivity {
 
     ImageView imgRuko;
-    TextView txtJdl, txtHarga, txtUkrn, txtBgnn, txtTnh, txtJumKmr, txtKmrMndi, txtListrik, txtSrtfkt;
+    TextView txtJdl, txtHarga, txtUkrn, txtBgnn, txtTnh, txtJumKmr, txtKmrMndi, txtListrik, txtSrtfkt, txtSts;
     Button btnTelp, btnSekitar, btnDirek;
 
     @Override
@@ -38,6 +39,7 @@ public class RukoDetail extends AppCompatActivity {
         final String no_hp = getIntent().getStringExtra("key_no_hp");
         final String latitude = getIntent().getStringExtra("key_lat");
         final String longitude = getIntent().getStringExtra("key_lon");
+        final String status = getIntent().getStringExtra("key_sts");
 
         getSupportActionBar().setTitle("Rincian Ruko");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,6 +54,7 @@ public class RukoDetail extends AppCompatActivity {
         txtKmrMndi = (TextView) findViewById(R.id.txt_kmr_mndi);
         txtListrik = (TextView) findViewById(R.id.txt_dy_lstrk);
         txtSrtfkt = (TextView) findViewById(R.id.txt_srtfkt);
+        txtSts = (TextView) findViewById(R.id.txt_sts);
 
         //set
         Glide.with(RukoDetail.this).load(gambar).into(imgRuko);
@@ -64,6 +67,15 @@ public class RukoDetail extends AppCompatActivity {
         txtKmrMndi.setText(kamar_mandi);
         txtListrik.setText(daya_listrik+" VA");
         txtSrtfkt.setText(sertifikat);
+
+        if(status.equals("N")){
+            txtSts.setText("Belum disewa");
+            txtSts.setTextColor(Color.GREEN);
+        }
+        if(status.equals("Y")){
+            txtSts.setText("Sudah disewakan");
+            txtSts.setTextColor(Color.RED);
+        }
 
         btnTelp = (Button) findViewById(R.id.btn_edit);
         btnSekitar = (Button) findViewById(R.id.btn_sekitar);

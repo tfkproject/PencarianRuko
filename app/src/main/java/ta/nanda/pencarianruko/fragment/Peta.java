@@ -319,6 +319,8 @@ public class Peta extends Fragment implements OnMapReadyCallback,
                             String no_hp = c.getString("no_hp");
                             String latitude = c.getString("latitude");
                             String longitude = c.getString("longitude");
+                            String status = c.getString("status_sewa");
+
 
                             items.add(new ItemRuko(
                                     id,
@@ -335,7 +337,8 @@ public class Peta extends Fragment implements OnMapReadyCallback,
                                     daya_listrik,
                                     no_hp,
                                     latitude,
-                                    longitude));
+                                    longitude,
+                                    status));
                         }
                     } else {
                         // no data found

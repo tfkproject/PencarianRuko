@@ -46,6 +46,7 @@ import ta.nanda.pencarianruko.fragment.Foto;
 import ta.nanda.pencarianruko.fragment.Peta;
 import ta.nanda.pencarianruko.fragment.Ruko;
 import ta.nanda.pencarianruko.model.ItemRuko;
+import ta.nanda.pencarianruko.model.ItemRukoPemilik;
 import ta.nanda.pencarianruko.util.Config;
 import ta.nanda.pencarianruko.util.Request;
 import ta.nanda.pencarianruko.util.SessionManager;
@@ -53,7 +54,7 @@ import ta.nanda.pencarianruko.util.SessionManager;
 public class PemilikActivity extends AppCompatActivity {
 
     private RecyclerView rc;
-    private List<ItemRuko> itemList;
+    private List<ItemRukoPemilik> itemList;
     private RukoPemilikAdapter adapter;
     private String url = Config.HOST+"list_ruko_pemilik.php";
 
@@ -158,6 +159,7 @@ public class PemilikActivity extends AppCompatActivity {
 
                             // Storing each json item in variable
                             String id = c.getString("id_ruko");
+                            String id_kec = c.getString("id_kec");
                             String nama_kec = c.getString("nama_kec");
                             String url_gambar = c.getString("gambar");
                             String judul = c.getString("judul");
@@ -172,9 +174,11 @@ public class PemilikActivity extends AppCompatActivity {
                             String no_hp = c.getString("no_hp");
                             String latitude = c.getString("latitude");
                             String longitude = c.getString("longitude");
+                            String status = c.getString("status_sewa");
 
-                            itemList.add(new ItemRuko(
+                            itemList.add(new ItemRukoPemilik(
                                     id,
+                                    id_kec,
                                     nama_kec,
                                     url_gambar,
                                     judul,
@@ -188,7 +192,8 @@ public class PemilikActivity extends AppCompatActivity {
                                     daya_listrik,
                                     no_hp,
                                     latitude,
-                                    longitude));
+                                    longitude,
+                                    status));
 
                         }
                     } else {

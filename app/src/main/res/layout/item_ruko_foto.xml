@@ -58,12 +58,13 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="[nama_judul]"
+                    android:text="[status]"
                     android:textStyle="bold"
                     android:padding="3dp"
-                    android:visibility="invisible"/>
+                    android:textAlignment="textEnd"/>
 
                 <TextView
                     android:id="@+id/harga"

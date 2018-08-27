@@ -4,8 +4,9 @@ package ta.nanda.pencarianruko.model;
  * Created by taufik on 21/05/18.
  */
 
-public class ItemRuko {
+public class ItemRukoPemilik {
     String id,
+            id_kec,
             kec,
             url_gambar,
             judul,
@@ -23,8 +24,9 @@ public class ItemRuko {
             status
     ;
 
-    public ItemRuko(
+    public ItemRukoPemilik(
             String id,
+            String id_kec,
             String kec,
             String url_gambar,
             String judul,
@@ -42,6 +44,7 @@ public class ItemRuko {
             String status
     ){
         this.id = id;
+        this.id_kec = id_kec;
         this.kec = kec;
         this.url_gambar = url_gambar;
         this.judul = judul;
@@ -61,6 +64,10 @@ public class ItemRuko {
 
     public String getId() {
         return id;
+    }
+
+    public String getId_kec() {
+                return  id_kec;
     }
 
     public String getKec() {

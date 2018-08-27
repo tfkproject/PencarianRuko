@@ -133,6 +133,7 @@ public class Ruko extends Fragment{
                             String no_hp = c.getString("no_hp");
                             String latitude = c.getString("latitude");
                             String longitude = c.getString("longitude");
+                            String status = c.getString("status_sewa");
 
                             itemList.add(new ItemRuko(
                                     id,
@@ -149,7 +150,8 @@ public class Ruko extends Fragment{
                                     daya_listrik,
                                     no_hp,
                                     latitude,
-                                    longitude));
+                                    longitude,
+                                    status));
 
                         }
                     } else {

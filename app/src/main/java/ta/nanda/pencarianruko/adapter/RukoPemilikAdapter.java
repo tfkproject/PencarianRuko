@@ -3,6 +3,7 @@ package ta.nanda.pencarianruko.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import ta.nanda.pencarianruko.R;
 import ta.nanda.pencarianruko.RukoDetail;
 import ta.nanda.pencarianruko.RukoPemilikDetail;
 import ta.nanda.pencarianruko.model.ItemRuko;
+import ta.nanda.pencarianruko.model.ItemRukoPemilik;
 import ta.nanda.pencarianruko.util.SessionManager;
 
 /**
@@ -29,11 +31,11 @@ import ta.nanda.pencarianruko.util.SessionManager;
 
 public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.ViewHolder> {
 
-    List<ItemRuko> items;
+    List<ItemRukoPemilik> items;
     Context context;
     private SessionManager session;
 
-    public RukoPemilikAdapter(Context context, List<ItemRuko> items) {
+    public RukoPemilikAdapter(Context context, List<ItemRukoPemilik> items) {
         this.context = context;
         this.items = items;
     }
@@ -77,6 +79,7 @@ public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.
                 }else{
                     Intent intent = new Intent(context, RukoPemilikDetail.class);
                     intent.putExtra("key_id_ruko", items.get(position).getId());
+                    intent.putExtra("key_id_kec", items.get(position).getId_kec());
                     intent.putExtra("key_nama_kec", items.get(position).getKec());
                     intent.putExtra("key_judul", items.get(position).getJudul());
                     intent.putExtra("key_gambar", items.get(position).getUrl_gambar());
@@ -91,6 +94,7 @@ public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.
                     intent.putExtra("key_no_hp", items.get(position).getNo_hp());
                     intent.putExtra("key_lat", items.get(position).getLatitude());
                     intent.putExtra("key_lon", items.get(position).getLongitude());
+                    intent.putExtra("key_sts", items.get(position).getStatus());
                     context.startActivity(intent);
                 }
 
@@ -101,6 +105,15 @@ public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.
         holder.txtUkuran.setText("Ukuran: "+items.get(position).getUkuran()+" M");
         holder.txtSert.setText(items.get(position).getSertifikat());
         holder.txtHarga.setText(items.get(position).getHarga());
+        String status = items.get(position).getStatus();
+        if(status.equals("N")){
+            holder.txtStatus.setText("Belum disewa");
+            holder.txtStatus.setTextColor(Color.GREEN);
+        }
+        if(status.equals("Y")){
+            holder.txtStatus.setText("Sudah disewakan");
+            holder.txtStatus.setTextColor(Color.RED);
+        }
     }
 
     @Override
@@ -112,7 +125,7 @@ public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.
 
         CardView itemRuko;
         ImageView image;
-        TextView txtJudul, txtUkuran, txtSert, txtHarga;
+        TextView txtJudul, txtUkuran, txtSert, txtHarga, txtStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +137,7 @@ public class RukoPemilikAdapter extends RecyclerView.Adapter<RukoPemilikAdapter.
             txtUkuran = (TextView) itemView.findViewById(R.id.ukuran);
             txtSert = (TextView) itemView.findViewById(R.id.sertifikat);
             txtHarga = (TextView) itemView.findViewById(R.id.harga);
+            txtStatus = (TextView) itemView.findViewById(R.id.status);
         }
     }
 }

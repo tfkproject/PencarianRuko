@@ -3,6 +3,7 @@ package ta.nanda.pencarianruko.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -91,6 +92,7 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
                     intent.putExtra("key_no_hp", items.get(position).getNo_hp());
                     intent.putExtra("key_lat", items.get(position).getLatitude());
                     intent.putExtra("key_lon", items.get(position).getLongitude());
+                    intent.putExtra("key_sts", items.get(position).getStatus());
                     context.startActivity(intent);
                 }
 
@@ -101,6 +103,15 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
         holder.txtUkuran.setText("Ukuran: "+items.get(position).getUkuran()+" M");
         holder.txtSert.setText(items.get(position).getSertifikat());
         holder.txtHarga.setText(items.get(position).getHarga());
+        String status = items.get(position).getStatus();
+        if(status.equals("N")){
+            holder.txtStatus.setText("Belum disewa");
+            holder.txtStatus.setTextColor(Color.GREEN);
+        }
+        if(status.equals("Y")){
+            holder.txtStatus.setText("Sudah disewakan");
+            holder.txtStatus.setTextColor(Color.RED);
+        }
     }
 
     @Override
@@ -112,7 +123,7 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
 
         CardView itemRuko;
         ImageView image;
-        TextView txtJudul, txtUkuran, txtSert, txtHarga;
+        TextView txtJudul, txtUkuran, txtSert, txtHarga, txtStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +135,7 @@ public class RukoAdapter extends RecyclerView.Adapter<RukoAdapter.ViewHolder> {
             txtUkuran = (TextView) itemView.findViewById(R.id.ukuran);
             txtSert = (TextView) itemView.findViewById(R.id.sertifikat);
             txtHarga = (TextView) itemView.findViewById(R.id.harga);
+            txtStatus = (TextView) itemView.findViewById(R.id.status);
         }
     }
 }

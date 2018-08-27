@@ -40,6 +40,7 @@
         <activity android:name="ta.nanda.pencarianruko.InputRukoActivity"/>
         <activity android:name="ta.nanda.pencarianruko.InputSekitaranRukoActivity"/>
         <activity android:name="ta.nanda.pencarianruko.SekitaranActivity"/>
+        <activity android:name="ta.nanda.pencarianruko.EditRukoActivity"/>
 
         <!--<meta-data
             android:name="com.google.android.maps.v2.API_KEY"

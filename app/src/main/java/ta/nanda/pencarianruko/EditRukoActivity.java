@@ -42,31 +42,31 @@ import ta.nanda.pencarianruko.util.Config;
 import ta.nanda.pencarianruko.util.Request;
 import ta.nanda.pencarianruko.util.SessionManager;
 
-public class InputRukoActivity extends AppCompatActivity {
+public class EditRukoActivity extends AppCompatActivity {
 
     ImageView imgRuko;
     TextView btnPilKec, edtJdl, edtHarga, edtUkrn, edtBgnn, edtTnh, edtJumKmr, edtKmrMndi, edtListrik, edtSrtfkt, txtLokasi;
-    Button btnInput, btnLokasi;
+    Button btnUpdate, btnLokasi;
     private static final int RESULT_SELECT_IMAGE = 1;
     public String timestamp, lat, lon;
     ProgressDialog pDialog;
-    private static final String TAG = InputRukoActivity.class.getSimpleName();
-    private static String url = Config.HOST+"tambah_ruko.php";
+    private static final String TAG = EditRukoActivity.class.getSimpleName();
+    private static String url = Config.HOST+"update_ruko.php";
     private SessionManager session;
     int PLACE_PICKER_REQUEST    =   2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input_ruko);
+        setContentView(R.layout.activity_edit_ruko);
 
         session = new SessionManager(getApplicationContext());
         //ambil data user
         HashMap<String, String> user = session.getUserDetails();
         final String id_user = user.get(SessionManager.KEY_ID_USER);
 
-        /*String id_ruko = getIntent().getStringExtra("key_id_ruko");
-        String nama_kec = getIntent().getStringExtra("key_nama_kec");
+        final String id_ruko = getIntent().getStringExtra("key_id_ruko");
+        String id_kec = getIntent().getStringExtra("key_id_kec");
         final String judul = getIntent().getStringExtra("key_judul");
         String gambar = getIntent().getStringExtra("key_gambar");
         String harga = getIntent().getStringExtra("key_harga");
@@ -79,9 +79,9 @@ public class InputRukoActivity extends AppCompatActivity {
         String sertifikat = getIntent().getStringExtra("key_sertifikat");
         final String no_hp = getIntent().getStringExtra("key_no_hp");
         final String latitude = getIntent().getStringExtra("key_lat");
-        final String longitude = getIntent().getStringExtra("key_lon");*/
+        final String longitude = getIntent().getStringExtra("key_lon");
 
-        getSupportActionBar().setTitle("Input Ruko");
+        getSupportActionBar().setTitle("Edit Ruko");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imgRuko = (ImageView) findViewById(R.id.img_ruko);
@@ -103,7 +103,7 @@ public class InputRukoActivity extends AppCompatActivity {
         btnPilKec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(InputRukoActivity.this, PilihArea.class);
+                Intent intent = new Intent(EditRukoActivity.this, PilihArea.class);
                 startActivity(intent);
             }
         });
@@ -122,7 +122,7 @@ public class InputRukoActivity extends AppCompatActivity {
                 PlacePicker.IntentBuilder builder   =   new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
-                    intent  =   builder.build(InputRukoActivity.this);
+                    intent  =   builder.build(EditRukoActivity.this);
                     startActivityForResult(intent,PLACE_PICKER_REQUEST );
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -132,8 +132,20 @@ public class InputRukoActivity extends AppCompatActivity {
             }
         });
 
-        btnInput = (Button) findViewById(R.id.btn_input);
-        btnInput.setOnClickListener(new View.OnClickListener() {
+        edtJdl.setText(judul);
+        edtHarga.setText(harga);
+        edtUkrn.setText(ukuran);
+        edtBgnn.setText(l_bangunan);
+        edtTnh.setText(l_tanah);
+        edtJumKmr.setText(jum_kamar);
+        edtKmrMndi.setText(kamar_mandi);
+        edtListrik.setText(daya_listrik);
+        edtSrtfkt.setText(sertifikat);
+        String address = "Lat: "+String.valueOf(latitude)+"\nLon: "+String.valueOf(longitude);
+        txtLokasi.setText(address);
+
+        btnUpdate = (Button) findViewById(R.id.btn_update);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -165,11 +177,12 @@ public class InputRukoActivity extends AppCompatActivity {
                                 kamar_mandi.equals("") ||
                                 daya_listrik.equals("") ||
                                 sertifikat.equals("") ||
-                                lat.equals("") ||
-                                lon.equals("")){
-                            Toast.makeText(InputRukoActivity.this, "Data masih ada yang kosong. Mohon isi semua field.", Toast.LENGTH_SHORT).show();
+                                latitude.equals("") ||
+                                longitude.equals("")){
+                            Toast.makeText(EditRukoActivity.this, "Data masih ada yang kosong. Mohon isi semua field.", Toast.LENGTH_SHORT).show();
                         }else{
                             new Upload(
+                                    id_ruko,
                                     image,
                                     "IMG_"+timestamp,
                                     id_kec,
@@ -194,7 +207,7 @@ public class InputRukoActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"Foto perlu ditambahkan",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Foto perlu diganti",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -229,7 +242,7 @@ public class InputRukoActivity extends AppCompatActivity {
         {
             if(resultCode == RESULT_OK)
             {
-                Place place =   PlacePicker.getPlace(data,InputRukoActivity.this);
+                Place place =   PlacePicker.getPlace(data,EditRukoActivity.this);
                 Double latitude = place.getLatLng().latitude;
                 Double longitude = place.getLatLng().longitude;
                 lat = String.valueOf(latitude);
@@ -241,6 +254,7 @@ public class InputRukoActivity extends AppCompatActivity {
     }
 
     private class Upload extends AsyncTask<Void,Void,String> {
+        private String id_ruko;
         private Bitmap image;
         private String file_name;
         private String id_kec;
@@ -260,6 +274,7 @@ public class InputRukoActivity extends AppCompatActivity {
         private String psn = "";
 
         public Upload(
+                String id_ruko,
                 Bitmap image,
                 String file_name,
                 String id_kec,
@@ -276,6 +291,7 @@ public class InputRukoActivity extends AppCompatActivity {
                 String latitude,
                 String longitude
                 ){
+            this.id_ruko = id_ruko;
             this.image = image;
             this.file_name = file_name;
             this.id_kec = id_kec;
@@ -296,7 +312,7 @@ public class InputRukoActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(InputRukoActivity.this);
+            pDialog = new ProgressDialog(EditRukoActivity.this);
             pDialog.setMessage("Sedang upload..");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -318,6 +334,7 @@ public class InputRukoActivity extends AppCompatActivity {
 
                 //generate hashMap to store encodedImage and the name
                 HashMap<String,String> detail = new HashMap<>();
+                detail.put("id_ruko", id_ruko);
                 detail.put("image", encodeImage);
                 detail.put("gambar", file_name);
                 detail.put("id_kec", id_kec);
